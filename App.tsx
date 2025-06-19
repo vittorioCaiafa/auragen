@@ -1,20 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// App.tsx
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';  // <-- Import this
+import AppNavigator from './src/navigation/AppNavigator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { ThemeProvider, useTheme } from './src/theme/ThemeContext';
 
-export default function App() {
+function MainApp() {
+  const [initialRoute, setInitialRoute] = useState<'Paywall' | 'Home' | null>(null);
+  const { isDark } = useTheme();
+
+  useEffect(() => {
+    const checkPayment = async () => {
+      const hasPaid = await AsyncStorage.getItem('hasPaid');
+      setInitialRoute(hasPaid === 'true' ? 'Home' : 'Paywall');
+    };
+
+    checkPayment();
+  }, []);
+
+  if (!initialRoute) return null;
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer theme={isDark ? DarkTheme : DefaultTheme}>
+      <AppNavigator initialRouteName={initialRoute} />
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return (
+    <ThemeProvider>
+      <MainApp />
+    </ThemeProvider>
+  );
+}
