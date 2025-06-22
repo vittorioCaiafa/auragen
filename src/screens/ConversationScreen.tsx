@@ -12,9 +12,9 @@ import {
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../AppNavigator';
-import { useTheme } from '../styles/theme/ThemeContext';
+import { useTheme } from '../theme/ThemeContext';
 import { styles } from '../styles/screens/ConversationScreen.styles';
-import { askAI, Message, generateConversationTitle } from '../services/openai';
+import { askAI, Message, generateConversationTitle } from '../services/openaiService';
 import { ConversationStorage } from '../services/conversationStorage';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Conversation'>;

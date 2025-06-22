@@ -1,4 +1,4 @@
-import { askAI } from './openai';
+import { askAI } from './openaiService';
 import { OPENAI_API_KEY } from '@env';
 
 export const testOpenAIConnection = async () => {

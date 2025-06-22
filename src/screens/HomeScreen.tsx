@@ -6,11 +6,11 @@ import { useFocusEffect } from '@react-navigation/native';
 import { RootStackParamList } from '../../AppNavigator';
 import styles from '../styles/screens/HomeScreen.styles';
 import BottomBar from '../components/BottomBar';
-import { useTheme } from '../styles/theme/ThemeContext';
+import { useTheme } from '../theme/ThemeContext';
 import { testOpenAIConnection } from '../services/testApi';
 import { debugApiConfiguration, testDirectApiCall, testAvailableModels } from '../services/debugApi';
 import { ConversationStorage } from '../services/conversationStorage';
-import { Conversation } from '../services/openai';
+import { Conversation } from '../services/openaiService';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 

@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Conversation, Message } from './openai';
+import { Conversation, Message } from './openaiService';
 
 const CONVERSATIONS_KEY = 'conversations';
 const CURRENT_CONVERSATION_KEY = 'current_conversation';

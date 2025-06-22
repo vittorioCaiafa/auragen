@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, Text, useColorScheme } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { lightTheme, darkTheme } from '../styles/theme/themes';
+import { lightTheme, darkTheme } from '../theme/themes';
 import { styles } from '../styles/screens/SessionScreen.styles';
 
 export default function SessionScreen() {

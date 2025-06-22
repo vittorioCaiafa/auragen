@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/screens/ProfileScreen.styles';
-import { useTheme } from '../styles/theme/ThemeContext';
+import { useTheme } from '../theme/ThemeContext';
 
 export default function ProfileScreen() {
   const { isDark } = useTheme();
