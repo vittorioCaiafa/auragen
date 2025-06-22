@@ -14,6 +14,7 @@ import { RootStackParamList } from "../navigation/AppNavigator";
 import { useTheme } from "../theme/ThemeContext";
 import { styles } from "../styles/screens/PaywallScreen.styles";
 import LottieView from "lottie-react-native";
+import PaymentModal from "../components/PaymentModal";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Paywall">;
 
@@ -21,22 +22,44 @@ export default function PaywallScreen({ navigation }: Props) {
   const [selectedPlan, setSelectedPlan] = useState<"basic" | "premium">(
     "basic"
   );
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const { isDark } = useTheme();
   const theme = isDark
     ? require("../theme/themes").darkTheme
     : require("../theme/themes").lightTheme;
 
-  const handlePurchase = async () => {
-    // Simulated payment flow
+  const getPlanPrice = () => {
+    return selectedPlan === "basic" ? "$4.99/mo" : "$9.99/mo";
+  };
+
+  const handleStartPurchase = () => {
+    setShowPaymentModal(true);
+  };
+
+  const handlePaymentSuccess = async () => {
     try {
       await AsyncStorage.setItem("hasPaid", "true");
-      navigation.replace("Home");
+      await AsyncStorage.setItem("selectedPlan", selectedPlan);
+      Alert.alert(
+        "Payment Successful! 🎉",
+        `Welcome to your ${selectedPlan} plan! You now have unlimited access to your AI psychologist.`,
+        [
+          {
+            text: "Start Using App",
+            onPress: () => navigation.replace("Home"),
+          },
+        ]
+      );
     } catch (err) {
       Alert.alert(
         "Error",
         "Something went wrong while processing the purchase."
       );
     }
+  };
+
+  const handlePaymentClose = () => {
+    setShowPaymentModal(false);
   };
 
   return (
@@ -77,7 +100,6 @@ export default function PaywallScreen({ navigation }: Props) {
           style={[
             styles.card,
             styles.cardPremium,
-            { backgroundColor: theme.card },
             selectedPlan === "premium" && styles.cardSelectedPremium,
           ]}
           onPress={() => setSelectedPlan("premium")}
@@ -92,19 +114,19 @@ export default function PaywallScreen({ navigation }: Props) {
             />
           )}
           <View style={{ zIndex: 1 }}>
-            <Text style={[styles.cardTitle, { color: theme.text }]}>
+            <Text style={[styles.cardTitle, { color: '#FFFFFF' }]}>
               Premium Plan
             </Text>
-            <Text style={[styles.cardPrice, { color: theme.button }]}>
+            <Text style={[styles.cardPrice, { color: '#F3E8FF' }]}>
               $9.99/mo
             </Text>
-            <Text style={[styles.cardFeature, { color: theme.text }]}>
+            <Text style={[styles.cardFeature, { color: '#F3E8FF' }]}>
               • Everything in Basic
             </Text>
-            <Text style={[styles.cardFeature, { color: theme.text }]}>
+            <Text style={[styles.cardFeature, { color: '#F3E8FF' }]}>
               • Priority support
             </Text>
-            <Text style={[styles.cardFeature, { color: theme.text }]}>
+            <Text style={[styles.cardFeature, { color: '#F3E8FF' }]}>
               • Early access to new features
             </Text>
           </View>
@@ -118,7 +140,7 @@ export default function PaywallScreen({ navigation }: Props) {
             ? styles.purchaseButtonPremium
             : styles.purchaseButtonBasic,
         ]}
-        onPress={handlePurchase}
+        onPress={handleStartPurchase}
         activeOpacity={0.85}
       >
         <Text
@@ -131,6 +153,23 @@ export default function PaywallScreen({ navigation }: Props) {
           {selectedPlan === "premium" ? "Start Premium" : "Start Basic"}
         </Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.skipButton}
+        onPress={() => navigation.replace("Home")}
+      >
+        <Text style={[styles.skipButtonText, { color: theme.textSecondary }]}>
+          Skip for now
+        </Text>
+      </TouchableOpacity>
+
+      <PaymentModal
+        visible={showPaymentModal}
+        onClose={handlePaymentClose}
+        onSuccess={handlePaymentSuccess}
+        plan={selectedPlan}
+        price={getPlanPrice()}
+      />
     </View>
   );
 }

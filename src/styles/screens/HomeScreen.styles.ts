@@ -3,12 +3,9 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
   },
   overlay: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: 24,
     backgroundColor: 'rgba(0,0,0,0.2)', // subtle dark overlay
   },
@@ -17,7 +14,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     color: '#1b5e20',
     textAlign: 'center',
-    marginBottom: 40,
+    marginBottom: 20,
     textShadowColor: '#a5d6a7',
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 2,
@@ -41,5 +38,92 @@ export default StyleSheet.create({
   },
   icon: {
     marginRight: 10,
+  },
+  startButton: {
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    borderRadius: 25,
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    marginBottom: 20,
+    alignSelf: 'center',
+  },
+  startButtonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  testButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 20,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    marginHorizontal: 5,
+  },
+  conversationsContainer: {
+    flex: 1,
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  conversationsList: {
+    flex: 1,
+    maxHeight: 300,
+  },
+  conversationItem: {
+    marginVertical: 6,
+    marginHorizontal: 10,
+    padding: 16,
+    borderRadius: 12,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+  },
+  conversationContent: {
+    flex: 1,
+  },
+  conversationTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  conversationPreview: {
+    fontSize: 14,
+    marginBottom: 6,
+    lineHeight: 18,
+  },
+  conversationTime: {
+    fontSize: 12,
+    fontStyle: 'italic',
+  },
+  debugButtons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
   },
 });

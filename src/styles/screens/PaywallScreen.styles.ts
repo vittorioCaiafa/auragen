@@ -14,12 +14,13 @@ export const styles = StyleSheet.create({
     },
     animation: {
       position: "absolute",
+      width: "70%",
+      height: "70%",
+      top: "15%",
       left: 0,
       right: 0,
-      top: 0,
-      width: "100%",
-      height: "100%",
-      opacity: 0.6,
+      alignSelf: "center",
+      opacity: 0.7,
       zIndex: 0,
     },
     description: {
@@ -53,11 +54,11 @@ export const styles = StyleSheet.create({
       backgroundColor: '#e8f5e9',
     },
     cardPremium: {
-      backgroundColor: '#f3e5f5',
+      backgroundColor: '#8B5CF6',
     },
     cardSelectedPremium: {
-      borderColor: '#8e24aa',
-      backgroundColor: '#BA55D3',
+      borderColor: '#0000CD',
+      backgroundColor: '#A78BFA',
     },
     cardTitle: {
       fontSize: 20,
@@ -97,6 +98,15 @@ export const styles = StyleSheet.create({
       fontWeight: 'bold',
       letterSpacing: 0.5,
       color: '#ffffff',
+    },
+    skipButton: {
+      marginTop: 16,
+      paddingVertical: 12,
+      alignItems: 'center',
+    },
+    skipButtonText: {
+      fontSize: 16,
+      textDecorationLine: 'underline',
     },
   });
   

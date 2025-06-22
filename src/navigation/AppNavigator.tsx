@@ -6,6 +6,7 @@ import PaywallScreen from "../screens/PaywallScreen";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import SessionScreen from "../screens/SessionScreen";
+import ConversationScreen from "../screens/ConversationScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -16,6 +17,7 @@ export type RootStackParamList = {
   Home: undefined;
   Profile: undefined;
   Session: undefined;
+  Conversation: { conversationId?: string };
 };
 
 type Props = {
@@ -47,6 +49,7 @@ export default function AppNavigator({ initialRouteName = "Paywall" }: Props) {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="Session" component={SessionScreen} />
+      <Stack.Screen name="Conversation" component={ConversationScreen} />
     </Stack.Navigator>
   );
 }
