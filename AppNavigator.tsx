@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AuthScreen from "../screens/AuthScreen";
-import PaywallScreen from "../screens/PaywallScreen";
-import HomeScreen from "../screens/HomeScreen";
-import ProfileScreen from "../screens/ProfileScreen";
-import SessionScreen from "../screens/SessionScreen";
-import ConversationScreen from "../screens/ConversationScreen";
+import AuthScreen from "./src/screens/AuthScreen";
+import PaywallScreen from "./src/screens/PaymentScreen";
+import HomeScreen from "./src/screens/HomeScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
+import SessionScreen from "./src/screens/SessionScreen";
+import ConversationScreen from "./src/screens/ConversationScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

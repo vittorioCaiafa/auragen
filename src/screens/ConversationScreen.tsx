@@ -11,8 +11,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/AppNavigator';
-import { useTheme } from '../theme/ThemeContext';
+import { RootStackParamList } from '../../AppNavigator';
+import { useTheme } from '../styles/theme/ThemeContext';
 import { styles } from '../styles/screens/ConversationScreen.styles';
 import { askAI, Message, generateConversationTitle } from '../services/openai';
 import { ConversationStorage } from '../services/conversationStorage';

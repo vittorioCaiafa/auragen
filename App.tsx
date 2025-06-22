@@ -1,10 +1,10 @@
 // App.tsx
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';  // <-- Import this
-import AppNavigator from './src/navigation/AppNavigator';
+import AppNavigator from './AppNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { ThemeProvider, useTheme } from './src/theme/ThemeContext';
+import { ThemeProvider, useTheme } from './src/styles/theme/ThemeContext';
 
 function MainApp() {
   const [initialRoute, setInitialRoute] = useState<'Paywall' | 'Home' | null>(null);

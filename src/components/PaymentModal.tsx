@@ -14,7 +14,7 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import { useTheme } from '../theme/ThemeContext';
+import { useTheme } from '../styles/theme/ThemeContext';
 
 const { height: screenHeight } = Dimensions.get('window');
 

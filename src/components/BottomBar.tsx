@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { RootStackParamList } from "../navigation/AppNavigator";
+import { RootStackParamList } from "../../AppNavigator";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { styles } from "../styles/components/BottomBar.styles";
 

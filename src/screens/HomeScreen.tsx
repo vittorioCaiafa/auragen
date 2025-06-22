@@ -3,10 +3,10 @@ import { Text, ImageBackground, View, TouchableOpacity, Alert, FlatList, Refresh
 import { LinearGradient } from 'expo-linear-gradient';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
-import { RootStackParamList } from '../navigation/AppNavigator';
+import { RootStackParamList } from '../../AppNavigator';
 import styles from '../styles/screens/HomeScreen.styles';
 import BottomBar from '../components/BottomBar';
-import { useTheme } from '../theme/ThemeContext';
+import { useTheme } from '../styles/theme/ThemeContext';
 import { testOpenAIConnection } from '../services/testApi';
 import { debugApiConfiguration, testDirectApiCall, testAvailableModels } from '../services/debugApi';
 import { ConversationStorage } from '../services/conversationStorage';

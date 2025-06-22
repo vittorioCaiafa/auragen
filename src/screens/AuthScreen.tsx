@@ -13,7 +13,7 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import { supabase } from "../utils/supabase";
 import { GOOGLE_CLIENT_ID } from '@env';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/AppNavigator';
+import { RootStackParamList } from '../../AppNavigator';
 import { styles } from '../styles/screens/AuthScreen.styles';
 import LottieView from "lottie-react-native";
 

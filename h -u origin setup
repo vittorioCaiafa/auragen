@@ -1,4 +1,0 @@
-[33m065432c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32msetup[m[33m)[m Remove .env file and add to .gitignore for security
-[33m9a97e00[m initial commit?
-[33m79782df[m feat: initial looks of the app
-[33mda7e64e[m[33m ([m[1;32mmaster[m[33m, [m[1;32mdevelop[m[33m)[m Created a new Expo app
