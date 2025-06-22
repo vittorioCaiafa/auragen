@@ -12,6 +12,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  StyleSheet,
 } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
 
@@ -285,7 +286,7 @@ export default function PaymentModal({
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -398,4 +399,4 @@ const styles = {
     fontSize: 12,
     fontWeight: 'bold',
   },
-}; 
+}); 
