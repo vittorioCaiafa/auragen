@@ -25,7 +25,7 @@ import {
   createPaymentIntent, 
   processPayment,
   PaymentPlan 
-} from "../services/payment";
+} from "../services/PaymentService";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Paywall">;
 
@@ -278,7 +278,7 @@ function PaymentScreenContent({ navigation }: Props) {
 
       <TouchableOpacity
         style={styles.skipButton}
-        onPress={() => navigation.replace("Home")}
+        onPress={() => navigation.replace("Main")}
         disabled={isPaymentLoading}
       >
         <Text style={[styles.skipButtonText, { color: theme.textSecondary }]}>

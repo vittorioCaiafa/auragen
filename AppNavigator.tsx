@@ -1,54 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createBottomTabNavigator, BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import AuthScreen from "./src/screens/AuthScreen";
 import PaywallScreen from "./src/screens/PaymentScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
 import SessionScreen from "./src/screens/SessionScreen";
 import ConversationScreen from "./src/screens/ConversationScreen";
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
+import BottomBar from "./src/components/BottomBar";
 
 export type RootStackParamList = {
-  Onboarding: undefined;
   Auth: undefined;
   Paywall: undefined;
-  Home: undefined;
-  Profile: undefined;
-  Session: undefined;
+  Main: undefined;
   Conversation: { conversationId?: string };
 };
 
-type Props = {
-  initialRouteName?: "Paywall" | "Home";
+export type MainTabParamList = {
+  Home: undefined;
+  Session: undefined;
+  Profile: undefined;
 };
 
-export default function AppNavigator({ initialRouteName = "Paywall" }: Props) {
-  const [loading, setLoading] = useState(true);
-  const [showOnboarding, setShowOnboarding] = useState(false);
+const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<MainTabParamList>();
 
-  useEffect(() => {
-    const checkFirstTime = async () => {
-      const hasSeen = await AsyncStorage.getItem("hasSeenOnboarding");
-      setShowOnboarding(!hasSeen);
-      setLoading(false);
-    };
-    checkFirstTime();
-  }, []);
+type Props = {
+  initialRouteName?: keyof RootStackParamList;
+};
 
-  if (loading) return null;
-
+function MainTabs() {
   return (
-    <Stack.Navigator
+    <Tab.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={initialRouteName}
+      tabBar={(props: BottomTabBarProps) => <BottomBar {...props} />}
     >
+      <Tab.Screen name="Session" component={SessionScreen} />
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
+    </Tab.Navigator>
+  );
+}
+
+export default function AppNavigator({ initialRouteName = "Paywall" }: Props) {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={initialRouteName}>
       <Stack.Screen name="Auth" component={AuthScreen} />
       <Stack.Screen name="Paywall" component={PaywallScreen} />
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="Session" component={SessionScreen} />
+      <Stack.Screen name="Main" component={MainTabs} />
       <Stack.Screen name="Conversation" component={ConversationScreen} />
     </Stack.Navigator>
   );

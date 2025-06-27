@@ -1,60 +1,51 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { RootStackParamList } from "../../AppNavigator";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { styles } from "../styles/components/BottomBar.styles";
 
-const BottomBar = () => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const insets = useSafeAreaInsets();
+const icons: Record<string, string> = {
+  Session: "chatbubble-ellipses-outline",
+  Home: "home-outline",
+  Profile: "person-circle-outline",
+};
 
+const BottomBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
   return (
-    <View style={[styles.container, { paddingBottom: insets.bottom }]}>
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => navigation.navigate("Session")}
-      >
-        <Ionicons
-          name="chatbubble-ellipses-outline"
-          size={24}
-          color="#2e7d32"
-        />
-        <Text style={styles.label}>Session</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => navigation.navigate("Home")}
-      >
-        <Ionicons name="leaf-outline" size={24} color="#2e7d32" />
-        <Text style={styles.label}>Home</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => navigation.navigate("Profile")}
-      >
-        <Ionicons name="person-circle-outline" size={24} color="#2e7d32" />
-        <Text style={styles.label}>Profile</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => navigation.navigate("Paywall")}
-      >
-        <Ionicons name="card-outline" size={24} color="#2e7d32" />
-        <Text style={styles.label}>Paywall</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => navigation.navigate("Auth")}
-      >
-        <Ionicons name="log-in-outline" size={24} color="#2e7d32" />
-        <Text style={styles.label}>Login</Text>
-      </TouchableOpacity>
+    <View style={styles.container}>
+      {state.routes.map((route, index) => {
+        const { options } = descriptors[route.key];
+        let label: string;
+        if (typeof options.tabBarLabel === 'string') {
+          label = options.tabBarLabel;
+        } else if (typeof options.title === 'string') {
+          label = options.title;
+        } else {
+          label = route.name;
+        }
+        const isFocused = state.index === index;
+        const iconName = icons[route.name] || 'ellipse-outline';
+        return (
+          <TouchableOpacity
+            key={route.key}
+            accessibilityRole="button"
+            accessibilityState={isFocused ? { selected: true } : {}}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            onPress={() => {
+              if (!isFocused) {
+                navigation.navigate(route.name);
+              }
+            }}
+            style={[styles.item, isFocused && { opacity: 1 }, !isFocused && { opacity: 0.6 }]}
+          >
+            <Ionicons
+              name={iconName as any}
+              size={24}
+              color={isFocused ? "#5D3FD3" : "#BDB5D5"}
+            />
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 };

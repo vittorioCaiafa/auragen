@@ -1,25 +1,14 @@
 // App.tsx
 import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';  // <-- Import this
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import AppNavigator from './AppNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { ThemeProvider, useTheme } from './src/theme/ThemeContext';
 
 function MainApp() {
-  const [initialRoute, setInitialRoute] = useState<'Paywall' | 'Home' | null>(null);
-  const { isDark } = useTheme();
-
-  useEffect(() => {
-    const checkPayment = async () => {
-      const hasPaid = await AsyncStorage.getItem('hasPaid');
-      setInitialRoute(hasPaid === 'true' ? 'Home' : 'Paywall');
-    };
-
-    checkPayment();
-  }, []);
-
-  if (!initialRoute) return null;
+  // Always start at Auth
+  const initialRoute: 'Auth' = 'Auth';
+  const { theme, isDark } = useTheme();
 
   return (
     <NavigationContainer theme={isDark ? DarkTheme : DefaultTheme}>
