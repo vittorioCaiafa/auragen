@@ -1,12 +1,12 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator, BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import AuthScreen from "./src/screens/AuthScreen";
-import PaywallScreen from "./src/screens/PaymentScreen";
-import HomeScreen from "./src/screens/HomeScreen";
-import ProfileScreen from "./src/screens/ProfileScreen";
-import SessionScreen from "./src/screens/SessionScreen";
-import ConversationScreen from "./src/screens/ConversationScreen";
+import AuthScreen from "./src/screens/login/AuthScreen";
+import PaywallScreen from "./src/screens/payment/PaymentScreen";
+import HomeScreen from "./src/screens/home/HomeScreen";
+import ProfileScreen from "./src/screens/profile/ProfileScreen";
+import ChatsScreen from "./src/screens/chats/ChatsScreen";
+import ConversationScreen from "./src/screens/conversation/ConversationScreen";
 import BottomBar from "./src/components/BottomBar";
 
 export type RootStackParamList = {
@@ -18,7 +18,7 @@ export type RootStackParamList = {
 
 export type MainTabParamList = {
   Home: undefined;
-  Session: undefined;
+  Chats: undefined;
   Profile: undefined;
 };
 
@@ -35,7 +35,7 @@ function MainTabs() {
       screenOptions={{ headerShown: false }}
       tabBar={(props: BottomTabBarProps) => <BottomBar {...props} />}
     >
-      <Tab.Screen name="Session" component={SessionScreen} />
+      <Tab.Screen name="Chats" component={ChatsScreen} />
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>

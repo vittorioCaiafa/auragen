@@ -10,9 +10,9 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../AppNavigator";
-import { useTheme } from "../theme/ThemeContext";
-import { styles } from "../styles/screens/PaymentScreen.styles";
+import { RootStackParamList } from "../../../AppNavigator";
+import { useTheme } from "../../theme/ThemeContext";
+import { styles } from "./PaymentScreen.styles";
 import LottieView from "lottie-react-native";
 import { 
   StripeProvider, 
@@ -25,7 +25,7 @@ import {
   createPaymentIntent, 
   processPayment,
   PaymentPlan 
-} from "../services/PaymentService";
+} from "../../services/PaymentService";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Paywall">;
 
@@ -39,8 +39,8 @@ function PaymentScreenContent({ navigation }: Props) {
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
   const { isDark } = useTheme();
   const theme = isDark
-    ? require("../theme/themes").darkTheme
-    : require("../theme/themes").lightTheme;
+    ? require("../../theme/themes").darkTheme
+    : require("../../theme/themes").lightTheme;
 
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
 
@@ -159,7 +159,9 @@ function PaymentScreenContent({ navigation }: Props) {
         [
           {
             text: "Start Using App",
-            onPress: () => navigation.replace("Home"),
+            onPress: () => {
+              navigation.replace("Main", { screen: "Home" });
+            },
           },
         ]
       );
@@ -224,7 +226,7 @@ function PaymentScreenContent({ navigation }: Props) {
         >
           {selectedPlan === "premium" && (
             <LottieView
-              source={require("../../assets/animations/lightning.json")}
+              source={require("../../../assets/animations/lightning.json")}
               autoPlay
               loop
               style={styles.animation}
@@ -278,7 +280,9 @@ function PaymentScreenContent({ navigation }: Props) {
 
       <TouchableOpacity
         style={styles.skipButton}
-        onPress={() => navigation.replace("Main")}
+        onPress={() => {
+          navigation.replace("Main", { screen: "Home" });
+        }}
         disabled={isPaymentLoading}
       >
         <Text style={[styles.skipButtonText, { color: theme.textSecondary }]}>

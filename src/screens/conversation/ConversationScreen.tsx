@@ -11,11 +11,11 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../AppNavigator';
-import { useTheme } from '../theme/ThemeContext';
-import { styles } from '../styles/screens/ConversationScreen.styles';
-import { askAI, Message, generateConversationTitle } from '../services/openaiService';
-import { ConversationStorage } from '../services/conversationStorage';
+import { RootStackParamList } from '../../../AppNavigator';
+import { useTheme } from '../../theme/ThemeContext';
+import { styles } from './ConversationScreen.styles';
+import { askAI, Message, generateConversationTitle } from '../../services/openaiService';
+import { ConversationStorage } from '../../services/conversationStorage';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Conversation'>;
 
@@ -28,8 +28,8 @@ export default function ConversationScreen({ navigation, route }: Props) {
   
   const { isDark } = useTheme();
   const theme = isDark
-    ? require('../theme/themes').darkTheme
-    : require('../theme/themes').lightTheme;
+    ? require('../../theme/themes').darkTheme
+    : require('../../theme/themes').lightTheme;
 
   useEffect(() => {
     loadConversation();

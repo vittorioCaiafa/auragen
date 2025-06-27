@@ -2,7 +2,7 @@ export const lightTheme = {
     background: '#e8f5e9',
     text: '#1b5e20',
     card: '#000000',
-    inputBackground: '#ffffffee',
+    inputBackground: '#ffffff',
     button: '#66bb6a',
   };
   

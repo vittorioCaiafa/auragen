@@ -2,10 +2,10 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { styles } from "../styles/components/BottomBar.styles";
+import { styles } from "./BottomBar.styles";
 
 const icons: Record<string, string> = {
-  Session: "chatbubble-ellipses-outline",
+  Chats: "chatbubble-ellipses-outline",
   Home: "home-outline",
   Profile: "person-circle-outline",
 };
@@ -41,7 +41,7 @@ const BottomBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation
             <Ionicons
               name={iconName as any}
               size={24}
-              color={isFocused ? "#5D3FD3" : "#BDB5D5"}
+              color={isFocused ? "purple" : "#BDB5D5"}
             />
           </TouchableOpacity>
         );

@@ -10,11 +10,11 @@ import {
 } from "react-native";
 import * as AuthSession from "expo-auth-session";
 import * as AppleAuthentication from "expo-apple-authentication";
-import { supabase } from "../utils/supabase";
+import { supabase } from "../../utils/supabase";
 import { GOOGLE_CLIENT_ID } from '@env';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../AppNavigator';
-import { styles } from '../styles/screens/AuthScreen.styles';
+import { RootStackParamList } from '../../../AppNavigator';
+import { styles } from './AuthScreen.styles';
 import LottieView from "lottie-react-native";
 
 export default function AuthScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'Auth'>) {
@@ -63,13 +63,13 @@ export default function AuthScreen({ navigation }: NativeStackScreenProps<RootSt
   return (
     <View style={styles.container}>
       <LottieView
-        source={require("../../assets/animations/waves.json")}
+        source={require("../../../assets/animations/waves.json")}
         autoPlay
         loop
         style={styles.animationTop}
       />
       <LottieView
-        source={require("../../assets/animations/waves.json")}
+        source={require("../../../assets/animations/waves.json")}
         autoPlay
         loop
         style={styles.animationBottom}
@@ -78,7 +78,7 @@ export default function AuthScreen({ navigation }: NativeStackScreenProps<RootSt
       <Text style={styles.subtitle}>Let us know who you are first</Text>
 
       <Pressable style={styles.button} onPress={handleGoogleSignIn}>
-        <Image source={require('../../assets/google-logo.png')} style={styles.googleLogo} />
+        <Image source={require('../../../assets/google-logo.png')} style={styles.googleLogo} />
         <Text style={styles.buttonText}>Continue with Google</Text>
       </Pressable>
 
