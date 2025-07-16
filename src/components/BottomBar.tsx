@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { styles } from "./BottomBar.styles";
+import { useTheme } from '../theme/ThemeContext';
 
 const icons: Record<string, string> = {
   Chats: "chatbubble-ellipses-outline",
@@ -11,8 +12,9 @@ const icons: Record<string, string> = {
 };
 
 const BottomBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
+  const { theme } = useTheme();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.bottomBar.backgroundColor, borderColor: theme.bottomBar.borderColor }]}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         let label: string;
@@ -41,7 +43,7 @@ const BottomBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation
             <Ionicons
               name={iconName as any}
               size={24}
-              color={isFocused ? "purple" : "#BDB5D5"}
+              color={isFocused ? theme.bottomBar.activeIcon : theme.bottomBar.inactiveIcon}
             />
           </TouchableOpacity>
         );

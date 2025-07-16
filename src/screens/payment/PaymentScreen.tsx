@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  Button,
-  StyleSheet,
   Alert,
   TouchableOpacity,
 } from "react-native";
@@ -14,139 +12,32 @@ import { RootStackParamList } from "../../../AppNavigator";
 import { useTheme } from "../../theme/ThemeContext";
 import { styles } from "./PaymentScreen.styles";
 import LottieView from "lottie-react-native";
-import { 
-  StripeProvider, 
-  useStripe,
-  PaymentSheet 
-} from '@stripe/stripe-react-native';
-import { 
-  fetchPublishableKey, 
-  fetchPaymentPlans, 
-  createPaymentIntent, 
-  processPayment,
-  PaymentPlan 
+import {
+  StripeProvider,
+} from "@stripe/stripe-react-native";
+import {
+  openStripeCheckout,
 } from "../../services/PaymentService";
+import { TestPriceId } from "../../utils/constants";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Paywall">;
 
 function PaymentScreenContent({ navigation }: Props) {
-  const [publishableKey, setPublishableKey] = useState('');
   const [selectedPlan, setSelectedPlan] = useState<"basic" | "premium">(
     "basic"
   );
-  const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
   const { isDark } = useTheme();
   const theme = isDark
     ? require("../../theme/themes").darkTheme
     : require("../../theme/themes").lightTheme;
 
-  const { initPaymentSheet, presentPaymentSheet } = useStripe();
-
-  const fetchPublishableKeyFromService = async () => {
+  const handleOpenStripeCheckout = async () => {
+    let priceId =
+      selectedPlan === "basic" ? TestPriceId.basic : TestPriceId.premium;
     try {
-      const key = await fetchPublishableKey();
-      setPublishableKey(key);
-    } catch (error) {
-      console.error('Failed to fetch publishable key:', error);
-      // Fallback to a default key for development
-      setPublishableKey('pk_test_your_test_key_here');
-    }
-  };
-
-  const loadPaymentPlans = async () => {
-    try {
-      const plans = await fetchPaymentPlans();
-      setPaymentPlans(plans);
-    } catch (error) {
-      console.error('Failed to load payment plans:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPublishableKeyFromService();
-    loadPaymentPlans();
-  }, []);
-
-  const getPlanPrice = () => {
-    const plan = paymentPlans.find(p => 
-      p.id === (selectedPlan === "basic" ? "basic_monthly" : "premium_monthly")
-    );
-    return plan ? `$${(plan.price / 100).toFixed(2)}/mo` : 
-      (selectedPlan === "basic" ? "$4.99/mo" : "$9.99/mo");
-  };
-
-  const getPlanPriceInCents = () => {
-    const plan = paymentPlans.find(p => 
-      p.id === (selectedPlan === "basic" ? "basic_monthly" : "premium_monthly")
-    );
-    return plan ? plan.price : (selectedPlan === "basic" ? 499 : 999);
-  };
-
-  const handleStartPurchase = async () => {
-    try {
-      setIsPaymentLoading(true);
-      
-      // Create payment intent
-      const planId = selectedPlan === 'basic' ? 'basic_monthly' : 'premium_monthly';
-      const paymentIntent = await createPaymentIntent(planId);
-      
-      // Initialize payment sheet
-      const { error: initError } = await initPaymentSheet({
-        merchantDisplayName: 'AuraGen',
-        paymentIntentClientSecret: paymentIntent.client_secret,
-        defaultBillingDetails: {
-          name: 'User',
-        },
-        appearance: {
-          colors: {
-            primary: '#2e7d32',
-            background: theme.background,
-            componentBackground: theme.card,
-            componentBorder: theme.border,
-            componentDivider: theme.border,
-            componentText: theme.text,
-            placeholderText: theme.textSecondary,
-          },
-          shapes: {
-            borderRadius: 12,
-            shadow: {
-              color: '#000000',
-              opacity: 0.1,
-            },
-          },
-        },
-      });
-
-      if (initError) {
-        Alert.alert('Error', initError.message);
-        return;
-      }
-
-      // Present payment sheet
-      const { error: presentError } = await presentPaymentSheet();
-
-      if (presentError) {
-        if (presentError.code === 'Canceled') {
-          // User canceled the payment
-          return;
-        }
-        Alert.alert('Payment Failed', presentError.message);
-        return;
-      }
-
-      // Payment successful
-      await handlePaymentSuccess();
-      
-    } catch (error) {
-      console.error('Payment error:', error);
-      Alert.alert('Error', 'An unexpected error occurred during payment processing');
-    } finally {
-      setIsPaymentLoading(false);
-    }
+      await openStripeCheckout(priceId, "vittorio.caiafa@gmail.com");
+    } catch (err) {}
   };
 
   const handlePaymentSuccess = async () => {
@@ -160,7 +51,7 @@ function PaymentScreenContent({ navigation }: Props) {
           {
             text: "Start Using App",
             onPress: () => {
-              navigation.replace("Main", { screen: "Home" });
+              (navigation as any).navigate("Main", { screen: "Home" });
             },
           },
         ]
@@ -173,16 +64,18 @@ function PaymentScreenContent({ navigation }: Props) {
     }
   };
 
-  if (isLoading) {
-    return (
-      <View style={[styles.container, { backgroundColor: theme.background, justifyContent: 'center', alignItems: 'center' }]}>
-        <Text style={[styles.title, { color: theme.text }]}>Loading...</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
+      {/* Close (X) button in top right */}
+      <TouchableOpacity
+        style={styles.closeButton}
+        onPress={() => {
+          (navigation as any).navigate("Main", { screen: "Home" });
+        }}
+        activeOpacity={0.7}
+      >
+        <Text style={styles.closeButtonText}>×</Text>
+      </TouchableOpacity>
       <Text style={[styles.title, { color: theme.text }]}>
         Unlock Your Personal AI Psychologist
       </Text>
@@ -192,34 +85,92 @@ function PaymentScreenContent({ navigation }: Props) {
       </Text>
 
       <View style={styles.cardsContainer}>
+        {/* Basic Plan Card */}
         <TouchableOpacity
           style={[
             styles.card,
-            { backgroundColor: theme.card },
-            selectedPlan === "basic" && styles.cardSelectedBasic,
+            {
+              backgroundColor:
+                selectedPlan === "basic"
+                  ? theme.basicPlanCard.selected.backgroundColor
+                  : theme.basicPlanCard.notSelected.backgroundColor,
+              borderColor:
+                selectedPlan === "basic"
+                  ? theme.basicPlanCard.selected.borderColor
+                  : theme.basicPlanCard.notSelected.borderColor,
+            },
           ]}
           onPress={() => setSelectedPlan("basic")}
           activeOpacity={0.9}
         >
-          <Text style={[styles.cardTitle, { color: theme.text }]}>
+          <Text
+            style={[
+              styles.cardTitle,
+              {
+                color:
+                  selectedPlan === "basic"
+                    ? theme.basicPlanCard.selected.title
+                    : theme.basicPlanCard.notSelected.title,
+              },
+            ]}
+          >
             Basic Plan
           </Text>
-          <Text style={[styles.cardPrice, { color: theme.button }]}>
+          <Text
+            style={[
+              styles.cardPrice,
+              {
+                color:
+                  selectedPlan === "basic"
+                    ? theme.basicPlanCard.selected.text
+                    : theme.basicPlanCard.notSelected.text,
+              },
+            ]}
+          >
             $4.99/mo
           </Text>
-          <Text style={[styles.cardFeature, { color: theme.text }]}>
+          <Text
+            style={[
+              styles.cardFeature,
+              {
+                color:
+                  selectedPlan === "basic"
+                    ? theme.basicPlanCard.selected.text
+                    : theme.basicPlanCard.notSelected.text,
+              },
+            ]}
+          >
             • Unlimited AI sessions
           </Text>
-          <Text style={[styles.cardFeature, { color: theme.text }]}>
+          <Text
+            style={[
+              styles.cardFeature,
+              {
+                color:
+                  selectedPlan === "basic"
+                    ? theme.basicPlanCard.selected.text
+                    : theme.basicPlanCard.notSelected.text,
+              },
+            ]}
+          >
             • Standard support
           </Text>
         </TouchableOpacity>
 
+        {/* Premium Plan Card */}
         <TouchableOpacity
           style={[
             styles.card,
-            styles.cardPremium,
-            selectedPlan === "premium" && styles.cardSelectedPremium,
+            {
+              backgroundColor:
+                selectedPlan === "premium"
+                  ? theme.premiumPlanCard.selected.backgroundColor
+                  : theme.premiumPlanCard.notSelected.backgroundColor,
+              borderColor:
+                selectedPlan === "premium"
+                  ? theme.premiumPlanCard.selected.borderColor
+                  : theme.premiumPlanCard.notSelected.borderColor,
+            },
           ]}
           onPress={() => setSelectedPlan("premium")}
           activeOpacity={0.9}
@@ -233,19 +184,69 @@ function PaymentScreenContent({ navigation }: Props) {
             />
           )}
           <View style={{ zIndex: 1 }}>
-            <Text style={[styles.cardTitle, { color: '#FFFFFF' }]}>
+            <Text
+              style={[
+                styles.cardTitle,
+                {
+                  color:
+                    selectedPlan === "premium"
+                      ? theme.premiumPlanCard.selected.title
+                      : theme.premiumPlanCard.notSelected.title,
+                },
+              ]}
+            >
               Premium Plan
             </Text>
-            <Text style={[styles.cardPrice, { color: '#F3E8FF' }]}>
+            <Text
+              style={[
+                styles.cardPrice,
+                {
+                  color:
+                    selectedPlan === "premium"
+                      ? theme.premiumPlanCard.selected.price
+                      : theme.premiumPlanCard.notSelected.text,
+                },
+              ]}
+            >
               $9.99/mo
             </Text>
-            <Text style={[styles.cardFeature, { color: '#F3E8FF' }]}>
+            <Text
+              style={[
+                styles.cardFeature,
+                {
+                  color:
+                    selectedPlan === "premium"
+                      ? theme.premiumPlanCard.selected.text
+                      : theme.premiumPlanCard.notSelected.text,
+                },
+              ]}
+            >
               • Everything in Basic
             </Text>
-            <Text style={[styles.cardFeature, { color: '#F3E8FF' }]}>
+            <Text
+              style={[
+                styles.cardFeature,
+                {
+                  color:
+                    selectedPlan === "premium"
+                      ? theme.premiumPlanCard.selected.text
+                      : theme.premiumPlanCard.notSelected.text,
+                },
+              ]}
+            >
               • Priority support
             </Text>
-            <Text style={[styles.cardFeature, { color: '#F3E8FF' }]}>
+            <Text
+              style={[
+                styles.cardFeature,
+                {
+                  color:
+                    selectedPlan === "premium"
+                      ? theme.premiumPlanCard.selected.text
+                      : theme.premiumPlanCard.notSelected.text,
+                },
+              ]}
+            >
               • Early access to new features
             </Text>
           </View>
@@ -256,11 +257,11 @@ function PaymentScreenContent({ navigation }: Props) {
         style={[
           styles.purchaseButton,
           selectedPlan === "premium"
-            ? styles.purchaseButtonPremium
-            : styles.purchaseButtonBasic,
-          isPaymentLoading && { opacity: 0.6 }
+            ? { backgroundColor: theme.premiumPlanCard.selected.submitButton }
+            : { backgroundColor: theme.basicPlanCard.selected.submitButton },
+          isPaymentLoading && { opacity: 0.6 },
         ]}
-        onPress={handleStartPurchase}
+        onPress={handleOpenStripeCheckout}
         activeOpacity={0.85}
         disabled={isPaymentLoading}
       >
@@ -271,22 +272,11 @@ function PaymentScreenContent({ navigation }: Props) {
               : styles.purchaseButtonTextBasic
           }
         >
-          {isPaymentLoading 
-            ? "Processing..." 
-            : (selectedPlan === "premium" ? "Start Premium" : "Start Basic")
-          }
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.skipButton}
-        onPress={() => {
-          navigation.replace("Main", { screen: "Home" });
-        }}
-        disabled={isPaymentLoading}
-      >
-        <Text style={[styles.skipButtonText, { color: theme.textSecondary }]}>
-          Skip for now
+          {isPaymentLoading
+            ? "Processing..."
+            : selectedPlan === "premium"
+            ? "Start Premium"
+            : "Start Basic"}
         </Text>
       </TouchableOpacity>
     </View>
@@ -294,20 +284,7 @@ function PaymentScreenContent({ navigation }: Props) {
 }
 
 export default function PaywallScreen(props: Props) {
-  const [publishableKey, setPublishableKey] = useState('');
-
-  useEffect(() => {
-    const loadKey = async () => {
-      try {
-        const key = await fetchPublishableKey();
-        setPublishableKey(key);
-      } catch (error) {
-        console.error('Failed to fetch publishable key:', error);
-        setPublishableKey('pk_test_your_test_key_here');
-      }
-    };
-    loadKey();
-  }, []);
+  const [publishableKey, setPublishableKey] = useState("");
 
   return (
     <StripeProvider

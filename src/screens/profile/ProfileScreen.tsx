@@ -5,10 +5,7 @@ import styles from "./ProfileScreen.styles";
 import { useTheme } from "../../theme/ThemeContext";
 
 export default function ProfileScreen() {
-  const { isDark } = useTheme();
-  const theme = isDark
-    ? require("../../theme/themes").darkTheme
-    : require("../../theme/themes").lightTheme;
+  const { theme } = useTheme();
   const user = {
     name: "John Doe",
     age: 27,
@@ -17,9 +14,9 @@ export default function ProfileScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <View style={[styles.header, { backgroundColor: theme.button }]} />
+      <View style={[styles.header, { backgroundColor: theme.lighterBackground }]} />
 
-      <View style={styles.avatarContainer}>
+      <View style={[styles.avatarContainer, { backgroundColor: theme.inputBackground }]}>
         <Image source={user.avatar} style={styles.avatar} />
       </View>
 
@@ -29,14 +26,30 @@ export default function ProfileScreen() {
       </Text>
 
       <View style={styles.buttonsContainer}>
-        <Pressable style={[styles.button, { backgroundColor: theme.button }]}>
-          <Ionicons name="create-outline" size={20} color="white" />
-          <Text style={styles.buttonText}>Edit Profile</Text>
+        <Pressable
+          style={[
+            styles.button,
+            { backgroundColor: theme.lighterBackground },
+          ]}
+        >
+          <Ionicons name="list-outline" size={20} color={theme.text} />
+          <Text style={[styles.buttonText, { color: theme.text }]}>Preferences</Text>
+        </Pressable>
+      </View>
+
+      <View style={styles.bottomButtonsContainer}>
+        <Pressable
+          style={[styles.button, { backgroundColor: theme.lighterBackground }]}
+        >
+          <Ionicons name="create-outline" size={20} color={theme.text} />
+          <Text style={[styles.buttonText, { color: theme.text }]}>Edit Profile</Text>
         </Pressable>
 
-        <Pressable style={[styles.button, styles.signOut]}>
-          <Ionicons name="log-out-outline" size={20} color="white" />
-          <Text style={styles.buttonText}>Sign Out</Text>
+        <Pressable
+          style={[styles.button, { backgroundColor: theme.lighterBackground }]}
+        >
+          <Ionicons name="log-out-outline" size={20} color={theme.red} />
+          <Text style={[styles.buttonText, { color: theme.red }]}>Sign Out</Text>
         </Pressable>
       </View>
     </View>

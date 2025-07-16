@@ -14,9 +14,9 @@ export const styles = StyleSheet.create({
     },
     animation: {
       position: "absolute",
-      width: "70%",
-      height: "70%",
-      top: "15%",
+      width: "140%",
+      height: "140%",
+      top: "-20%",
       left: 0,
       right: 0,
       alignSelf: "center",
@@ -36,7 +36,6 @@ export const styles = StyleSheet.create({
     },
     card: {
       flex: 1,
-      backgroundColor: '#fff',
       borderRadius: 18,
       padding: 22,
       marginHorizontal: 4,
@@ -49,16 +48,8 @@ export const styles = StyleSheet.create({
       borderWidth: 2,
       borderColor: 'transparent',
     },
-    cardSelectedBasic: {
-      borderColor: '#66bb6a',
-      backgroundColor: '#e8f5e9',
-    },
     cardPremium: {
       backgroundColor: '#8B5CF6',
-    },
-    cardSelectedPremium: {
-      borderColor: '#0000CD',
-      backgroundColor: '#A78BFA',
     },
     cardTitle: {
       fontSize: 20,
@@ -81,12 +72,6 @@ export const styles = StyleSheet.create({
       alignItems: 'center',
       elevation: 4,
     },
-    purchaseButtonBasic: {
-      backgroundColor: '#66bb6a',
-    },
-    purchaseButtonPremium: {
-      backgroundColor: '#000000',
-    },
     purchaseButtonTextBasic: {
       fontSize: 18,
       fontWeight: 'bold',
@@ -107,6 +92,23 @@ export const styles = StyleSheet.create({
     skipButtonText: {
       fontSize: 16,
       textDecorationLine: 'underline',
+    },
+    closeButton: {
+      position: 'absolute',
+      top: 50,
+      right: 16,
+      zIndex: 10,
+      width: 36,
+      height: 36,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 18,
+    },
+    closeButtonText: {
+      fontSize: 28,
+      color: '#888',
+      fontWeight: 'bold',
+      lineHeight: 32,
     },
   });
   

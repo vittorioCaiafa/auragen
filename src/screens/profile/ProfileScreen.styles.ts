@@ -1,24 +1,24 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
     paddingTop: 60,
-    backgroundColor: '#f1f8f4',
+    backgroundColor: "#f1f8f4",
   },
   header: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     height: 160,
-    width: '100%',
-    backgroundColor: '#a5d6a7',
+    width: "100%",
+    backgroundColor: "#a5d6a7",
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
   },
   avatarContainer: {
     marginTop: 20,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 100,
     padding: 5,
     elevation: 5,
@@ -30,35 +30,38 @@ export default StyleSheet.create({
   },
   name: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 12,
-    color: '#2e7d32',
+    color: "#2e7d32",
   },
   age: {
     fontSize: 16,
-    color: '#555',
+    color: "#555",
     marginBottom: 30,
   },
   buttonsContainer: {
-    width: '80%',
+    width: "80%",
+    gap: 16,
+  },
+  bottomButtonsContainer: {
+    position: "absolute",
+    bottom: 40,
+    width: "80%",
     gap: 16,
   },
   button: {
-    backgroundColor: '#66bb6a',
+    backgroundColor: "#66bb6a",
     paddingVertical: 12,
     borderRadius: 12,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     gap: 8,
     elevation: 3,
   },
-  signOut: {
-    backgroundColor: '#e53935',
-  },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });
